@@ -1,4 +1,4 @@
-require "buckaroo_json/version"
+require 'buckaroo_json/version'
 
 module BuckarooJson
   # Your code goes here...
