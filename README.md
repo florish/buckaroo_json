@@ -1,8 +1,27 @@
 # BuckarooJson
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/buckaroo_json`. To experiment with that code, run `bin/console` for an interactive prompt.
+Ruby client for [JSON based Buckaroo checkout gateway](https://checkout.buckaroo.nl/json/Docs).
 
-TODO: Delete this and the text above, and describe your gem
+This gem currently provides authentication for requests to the gateway:
+
+```ruby
+BuckarooJson::AuthorizationHeader.create(
+  website_key: 'foo',
+  api_key: 'bar',
+  method: 'GET',
+  url: 'https://checkout.buckaroo.nl/json/path/to/endpoint',
+  content: '{"some": "JSON string"}' # optional value, leave blank for GET
+)
+# => 'hmac foo:[[AUTHENTICATION_HASH]]:[[NONCE]]:[TIMESTAMP]]'
+```
+
+Use this string as the value for your `Authorization` HTTP header:
+
+    Authorization: hmac foo:...:...:...
+
+That's it!
+
+(Support for specific transaction types is still work in progress.)
 
 ## Installation
 
