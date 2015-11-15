@@ -1,5 +1,7 @@
-require 'openssl'
 require 'base64'
+require 'openssl'
+require 'securerandom'
+require 'uri'
 
 module BuckarooJson
   module AuthorizationHeader
