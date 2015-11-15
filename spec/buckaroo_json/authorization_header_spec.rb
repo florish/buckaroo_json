@@ -1,9 +1,9 @@
 require 'buckaroo_json/authorization_header'
 
 describe BuckarooJson::AuthorizationHeader do
-  describe '.call' do
+  describe '.create' do
     let(:result) do
-      described_class.call(
+      described_class.create(
         website_key: 'foo',
         api_key: 'bar',
         method: 'GET',

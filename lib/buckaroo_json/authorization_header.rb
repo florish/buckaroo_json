@@ -4,7 +4,7 @@ require 'base64'
 module BuckarooJson
   module AuthorizationHeader
     class << self
-      def call(website_key:, api_key:, method:, url:, content: nil)
+      def create(website_key:, api_key:, method:, url:, content: nil)
         timestamp = current_timestamp
         nonce = current_nonce
         base64_hash = hmac_sha256_hash(
