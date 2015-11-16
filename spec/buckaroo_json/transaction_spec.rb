@@ -35,6 +35,9 @@ describe BuckarooJson::Transaction do
     it 'sends "Services" content to converter' do
       expect(BuckarooJson::Services).to receive(:convert).with(
         [{ 'Name' => 'ideal' }]
+      ).and_return(:foo)
+      expect(BuckarooJson::Request).to receive(:create).with(
+        **output.merge(content: { 'Services' => :foo })
       )
       described_class.create(
         **input.merge(
