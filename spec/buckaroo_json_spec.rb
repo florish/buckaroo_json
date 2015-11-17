@@ -16,4 +16,27 @@ describe BuckarooJson do
       described_class.create_transaction(foo: 'bar')
     end
   end
+
+  describe '.configuration' do
+    subject { described_class.configuration }
+
+    it 'default to test mode with empty values' do
+      expect(subject).to eq(
+        mode: 'test',
+        website_key: nil,
+        api_key: nil
+      )
+    end
+
+    it 'reads in ENV settings if given' do
+      allow(ENV).to receive(:[]).with('BUCKAROO_JSON_MODE').and_return(:foo)
+      allow(ENV).to receive(:[]).with('BUCKAROO_JSON_WEBSITE_KEY').and_return(:bar)
+      allow(ENV).to receive(:[]).with('BUCKAROO_JSON_API_KEY').and_return(:bax)
+      expect(subject).to eq(
+        mode: :foo,
+        website_key: :bar,
+        api_key: :bax
+      )
+    end
+  end
 end
