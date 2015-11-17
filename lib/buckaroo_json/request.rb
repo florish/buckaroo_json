@@ -30,17 +30,17 @@ module BuckarooJson
       end
 
       def post(uri:, content:, website_key:, api_key:)
-        req = Net::HTTP::Post.new(uri.path)
-        req.body = content
-        req['Content-Type'] = 'application/json'
-        req['Authorization'] = create_authorization_header(
-          website_key: website_key,
-          api_key: api_key,
-          method: 'POST',
-          url: uri,
-          content: content
-        )
-        req
+        Net::HTTP::Post.new(uri.path).tap do |req|
+          req.body = content
+          req['Content-Type'] = 'application/json'
+          req['Authorization'] = create_authorization_header(
+            website_key: website_key,
+            api_key: api_key,
+            method: 'POST',
+            url: uri,
+            content: content
+          )
+        end
       end
 
       def response(host:, port:, request:)
