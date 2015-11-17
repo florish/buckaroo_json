@@ -5,24 +5,52 @@ module BuckarooJson
   module Request
     class << self
       def create(mode:, method:, endpoint:, website_key:, api_key:, content:)
-        uri = Uri.create(mode: mode, endpoint: endpoint)
-        req = Net::HTTP::Post.new(uri.path)
-        req.body = content.to_json
-        req['Content-Type'] = 'application/json'
-        req['Authorization'] = AuthorizationHeader.create(
-          website_key: website_key,
-          api_key: api_key,
+        uri = checkout_uri(mode: mode, endpoint: endpoint)
+        req = request_for_method(
           method: method,
-          url: uri,
-          content: content.to_json
+          uri: uri,
+          content: content.to_json,
+          website_key: website_key,
+          api_key: api_key
         )
-        http = Net::HTTP.new(uri.host, uri.port)
-        http.use_ssl = true
-        http.request(req)
+        response(host: uri.host, port: uri.port, request: req)
       end
 
-      def url_for_mode(mode)
-        Uri.create(mode: mode)
+      def checkout_uri(mode:, endpoint:)
+        Uri.create(mode: mode, endpoint: endpoint)
+      end
+
+      def request_for_method(method:, **args)
+        get(**args) if method == 'GET'
+        post(**args) if method == 'POST'
+      end
+
+      def get(**_args)
+        fail NotImplementedError
+      end
+
+      def post(uri:, content:, website_key:, api_key:)
+        req = Net::HTTP::Post.new(uri.path)
+        req.body = content
+        req['Content-Type'] = 'application/json'
+        req['Authorization'] = create_authorization_header(
+          website_key: website_key,
+          api_key: api_key,
+          method: 'POST',
+          url: uri,
+          content: content
+        )
+        req
+      end
+
+      def response(host:, port:, request:)
+        http = Net::HTTP.new(host, port)
+        http.use_ssl = true
+        http.request(request)
+      end
+
+      def create_authorization_header(**args)
+        AuthorizationHeader.create(**args)
       end
     end
   end
