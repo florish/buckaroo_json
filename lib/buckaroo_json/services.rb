@@ -1,7 +1,7 @@
 module BuckarooJson
   module Services
     class << self
-      def convert(services:)
+      def convert(services)
         {
           'ServiceList' => services.map { |s| convert_service(s) }
         }

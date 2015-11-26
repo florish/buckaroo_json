@@ -22,7 +22,7 @@ describe BuckarooJson::Services do
           ]
         ]
       }
-      expect(described_class.convert(services: input)).to eq(output)
+      expect(described_class.convert(input)).to eq(output)
     end
   end
 end
