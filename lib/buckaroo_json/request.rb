@@ -1,17 +1,18 @@
-require 'net/https'
+require 'json'
+require 'net/http'
 require 'buckaroo_json/uri'
 
 module BuckarooJson
   module Request
     class << self
-      def create(mode:, method:, endpoint:, website_key:, api_key:, content:)
+      def create(mode:, website_key:, api_key:, method:, endpoint:, content:)
         uri = checkout_uri(mode: mode, endpoint: endpoint)
         req = request_for_method(
+          website_key: website_key,
+          api_key: api_key,
           method: method,
           uri: uri,
-          content: content.to_json,
-          website_key: website_key,
-          api_key: api_key
+          content: content.to_json
         )
         response(host: uri.host, port: uri.port, request: req)
       end
@@ -44,9 +45,9 @@ module BuckarooJson
       end
 
       def response(host:, port:, request:)
-        http = Net::HTTP.new(host, port)
-        http.use_ssl = true
-        http.request(request)
+        Net::HTTP.start(host, port, use_ssl: true) do |http|
+          http.request(request)
+        end
       end
 
       def create_authorization_header(**args)

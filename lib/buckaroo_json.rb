@@ -1,4 +1,3 @@
-require 'buckaroo_json/authorization_header'
 require 'buckaroo_json/transaction'
 require 'buckaroo_json/version'
 

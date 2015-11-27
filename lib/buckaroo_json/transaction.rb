@@ -7,10 +7,10 @@ module BuckarooJson
       def create(mode:, website_key:, api_key:, content:)
         Request.create(
           mode: mode,
-          method: 'POST',
-          endpoint: 'Transaction',
           website_key: website_key,
           api_key: api_key,
+          method: 'POST',
+          endpoint: 'Transaction',
           content: convert_services(content)
         )
       end
