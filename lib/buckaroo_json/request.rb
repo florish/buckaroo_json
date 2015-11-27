@@ -33,6 +33,7 @@ module BuckarooJson
 
       def get(uri:, content:, website_key:, api_key:)
         Net::HTTP::Get.new(uri.request_uri).tap do |req|
+          req['Accept'] = 'application/json'
           req['Authorization'] = create_authorization_header(
             website_key: website_key,
             api_key: api_key,
