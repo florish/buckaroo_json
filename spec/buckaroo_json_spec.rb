@@ -5,15 +5,15 @@ describe BuckarooJson do
     expect(BuckarooJson::VERSION).not_to be nil
   end
 
-  describe '.create_transaction' do
+  describe '.transaction' do
     it 'delegates to submodule' do
       expect(BuckarooJson::Transaction).to receive(:create).with(
         mode: 'test',
         website_key: nil,
         api_key: nil,
-        foo: 'bar'
+        content: { foo: 'bar' }
       )
-      described_class.create_transaction(foo: 'bar')
+      described_class.transaction(foo: 'bar')
     end
   end
 

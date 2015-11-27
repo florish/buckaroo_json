@@ -2,8 +2,8 @@ require 'buckaroo_json/transaction'
 require 'buckaroo_json/version'
 
 module BuckarooJson
-  def self.create_transaction(**args)
-    Transaction.create(**configuration.merge(args))
+  def self.transaction(content = {})
+    Transaction.create(**configuration.merge(content: content))
   end
 
   private
