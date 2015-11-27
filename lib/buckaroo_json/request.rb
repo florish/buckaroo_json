@@ -23,12 +23,24 @@ module BuckarooJson
       end
 
       def request_for_method(method:, **args)
-        get(**args) if method == 'GET'
-        post(**args) if method == 'POST'
+        case method
+        when 'GET'
+          get(**args)
+        when 'POST'
+          post(**args)
+        end
       end
 
-      def get(**_args)
-        fail NotImplementedError
+      def get(uri:, content:, website_key:, api_key:)
+        Net::HTTP::Get.new(uri.request_uri).tap do |req|
+          req['Authorization'] = create_authorization_header(
+            website_key: website_key,
+            api_key: api_key,
+            method: 'GET',
+            url: uri,
+            content: content
+          )
+        end
       end
 
       def post(uri:, content:, website_key:, api_key:)
