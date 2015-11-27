@@ -17,6 +17,19 @@ describe BuckarooJson do
     end
   end
 
+  describe '.transaction_specification' do
+    it 'delegates to submodule' do
+      expect(BuckarooJson::TransactionSpecification).to receive(:create).with(
+        mode: 'test',
+        website_key: nil,
+        api_key: nil,
+        service: 'foo',
+        version: '3.0'
+      )
+      described_class.transaction_specification('foo')
+    end
+  end
+
   describe '.configuration' do
     subject { described_class.configuration }
 
