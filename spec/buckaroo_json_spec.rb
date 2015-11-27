@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'buckaroo_json'
 
 describe BuckarooJson do
   it 'has a version number' do
