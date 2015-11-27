@@ -1,5 +1,6 @@
 require 'json'
 require 'net/http'
+require 'buckaroo_json/authorization_header'
 require 'buckaroo_json/uri'
 
 module BuckarooJson
